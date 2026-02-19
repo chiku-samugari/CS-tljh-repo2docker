@@ -36,7 +36,7 @@ sudo modprobe fuse
 
 # pull the repo2docker image
 sudo docker pull gcr.io/nii-ap-ops/repo2docker:2026.02.0
-sudo docker pull gcr.io/nii-ap-ops/rdmfs:2026.02.0
+sudo docker pull docker.io/chiku314/rdmfs:2026.02.0
 
 # install TLJH 1.0
 curl -L https://tljh.jupyter.org/bootstrap.py \

@@ -159,7 +159,7 @@ async def build_image(
 
     config = {
         "Cmd": cmd,
-        "Image": repo2docker_image or "quay.io/jupyterhub/repo2docker:main",
+        "Image": repo2docker_image or "gcr.io/nii-ap-ops/repo2docker:2026.02.0",
         "Labels": builder_labels,
         "Volumes": {
             "/var/run/docker.sock": {

@@ -122,3 +122,21 @@ def next_event(it):
             return
         if line.startswith("data:"):
             return json.loads(line.split(":", 1)[1])
+
+
+def find_event(it, predicate, max_events=50):
+    """Scan SSE events until one satisfies predicate.
+
+    Skips non-matching events (e.g. warnings on stderr before
+    repo2docker produces its real output).
+
+    Raises StopIteration if the stream ends or max_events is
+    reached without finding a match.
+    """
+    for _ in range(max_events):
+        evt = next_event(it)
+        if evt is None:
+            raise StopIteration("Stream ended without matching event")
+        if predicate(evt):
+            return evt
+    raise StopIteration(f"No matching event found within {max_events} events")

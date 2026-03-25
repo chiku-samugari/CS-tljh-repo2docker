@@ -1,7 +1,7 @@
 import pytest
 from jupyterhub.tests.utils import async_requests
 
-from ..utils import add_environment, api_request, next_event, wait_for_image
+from ..utils import add_environment, api_request, find_event, wait_for_image
 
 
 @pytest.mark.asyncio
@@ -18,10 +18,14 @@ async def test_stream_simple(app, minimal_repo, image_name):
     assert r.headers["content-type"] == "text/event-stream"
     ex = async_requests.executor
     line_iter = iter(r.iter_lines(decode_unicode=True))
-    evt = await ex.submit(next_event, line_iter)
-    evt = await ex.submit(next_event, line_iter)
-    msg = evt.get("message", "")
-    assert "Picked Git content provider." in msg
+    # The build stream may contain warnings on stderr (e.g.,
+    # RequestsDependencyWarning) before the Git provider message.
+    evt = await ex.submit(
+        find_event,
+        line_iter,
+        lambda e: "Picked Git content provider." in e.get("message", ""),
+    )
+    assert evt["phase"] == "log"
 
     r.close()
     await wait_for_image(image_name=image_name)

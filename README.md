@@ -35,7 +35,7 @@ sudo npm install -g yarn
 sudo modprobe fuse
 
 # pull the repo2docker image
-sudo docker pull gcr.io/nii-ap-ops/repo2docker:2026.02.0
+sudo docker pull chiku314/cs-repo2docker:fix-remotes-usage
 sudo docker pull gcr.io/nii-ap-ops/rdmfs:2026.02.1
 
 # install TLJH 1.0
@@ -43,7 +43,7 @@ curl -L https://tljh.jupyter.org/bootstrap.py \
   | sudo python3 - \
     --version 1.0.0 \
     --admin admin:change-your-password \
-    --plugin git+https://github.com/RCOSDP/CS-tljh-repo2docker.git@master
+    --plugin git+https://github.com/chiku-samugari/CS-tljh-repo2docker.git@try-repo2docker-fix
 
 # Workaround: upgrade to the latest version of jupyterhub
 # Because an older version of jupyterhub is installed together with CS-binderhub,
